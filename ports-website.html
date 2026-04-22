@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البورتات المعروفة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f4f1eb;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #e0dbd0;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --tag-web: #dbeafe;
+    --tag-web-t: #1e40af;
+    --tag-email: #fce7f3;
+    --tag-email-t: #9d174d;
+    --tag-file: #d1fae5;
+    --tag-file-t: #065f46;
+    --tag-remote: #fef3c7;
+    --tag-remote-t: #92400e;
+    --tag-dns: #ede9fe;
+    --tag-dns-t: #5b21b6;
+    --tag-net: #ecfdf5;
+    --tag-net-t: #064e3b;
+    --tag-db: #f3f4f6;
+    --tag-db-t: #374151;
+    --tag-sec: #fee2e2;
+    --tag-sec-t: #991b1b;
+  }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── PAGE ── */
+  #page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.4rem;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .dot { color: var(--accent); }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    margin-bottom: 1.8rem;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+
+  /* ── GRID ── */
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+    border-color: var(--accent);
+  }
+  .card-port {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .card-service {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  .proto {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ── DETAIL PAGE ── */
+  #detail {
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--text);
+    margin-bottom: 1.8rem;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .back-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+  .detail-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 2rem 2rem 2.5rem;
+  }
+  .detail-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .detail-port-box {
+    background: var(--accent-light);
+    border-radius: 12px;
+    padding: 0.7rem 1.2rem;
+    text-align: center;
+    min-width: 90px;
+  }
+  .detail-port-box .num { font-size: 2.2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .detail-port-box .lbl { font-size: 0.7rem; color: var(--accent); }
+  .detail-title h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .detail-title p { color: var(--muted); font-size: 0.9rem; }
+
+  .section-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+  .detail-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: var(--bg);
+    border-radius: 10px;
+    border-right: 3px solid var(--accent);
+  }
+  .detail-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .meta-box {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+  }
+  .meta-box .meta-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 3px; }
+  .meta-box .meta-val { font-size: 0.95rem; font-weight: 500; }
+
+  .example-box {
+    background: #1e1e2e;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .example-box pre {
+    color: #a6e3a1;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    white-space: pre-wrap;
+    line-height: 1.7;
+  }
+  .example-box .comment { color: #6c7086; }
+  .example-box .cmd { color: #89b4fa; }
+  .example-box .str { color: #f38ba8; }
+
+  /* tag colors */
+  .t-web { background: var(--tag-web); color: var(--tag-web-t); }
+  .t-email { background: var(--tag-email); color: var(--tag-email-t); }
+  .t-file { background: var(--tag-file); color: var(--tag-file-t); }
+  .t-remote { background: var(--tag-remote); color: var(--tag-remote-t); }
+  .t-dns { background: var(--tag-dns); color: var(--tag-dns-t); }
+  .t-net { background: var(--tag-net); color: var(--tag-net-t); }
+  .t-db { background: var(--tag-db); color: var(--tag-db-t); }
+  .t-sec { background: var(--tag-sec); color: var(--tag-sec-t); }
+
+  #no-result { display: none; text-align: center; color: var(--muted); padding: 3rem 0; }
+</style>
+</head>
+<body>
+<div id="page">
+
+  <!-- LIST VIEW -->
+  <div id="list-view">
+    <header>
+      <h1>البورتات المعروفة <span class="dot">.</span></h1>
+      <p>اضغط على أي بورت لمعرفة تفاصيله</p>
+    </header>
+
+    <div class="search-wrap">
+      <input type="text" id="search" placeholder="🔍  ابحث عن بورت أو خدمة..." oninput="filterCards()" />
+    </div>
+
+    <div id="grid"></div>
+    <p id="no-result">ما فيش نتائج 😅</p>
+  </div>
+
+  <!-- DETAIL VIEW -->
+  <div id="detail">
+    <button class="back-btn" onclick="showList()">← رجوع</button>
+    <div class="detail-card" id="detail-content"></div>
+  </div>
+
+</div>
+
+<script>
+const ports = [
+  {
+    port: 22, service: "SSH", proto: "TCP", cat: "remote",
+    short: "اتصال آمن بالسيرفر",
+    desc: "SSH (Secure Shell) هو بروتوكول بيخليك تتحكم في سيرفر بعيد بشكل آمن ومشفر. بدل ما كان الناس بتستخدم Telnet وكل حاجة بتبعتها كانت ظاهرة لأي حد، SSH بيشفر كل الكلام اللي بيحصل بينك وبين السيرفر.",
+    use: "إدارة سيرفرات Linux، نقل ملفات (SCP/SFTP)، تشغيل أوامر عن بُعد",
+    risk: "لو بتستخدم كلمة سر ضعيفة أو بتسمح لـ root يدخل، ده خطر كبير. استخدم SSH keys.",
+    example: `<span class="comment"># اتصل بسيرفر عن بُعد</span>
+<span class="cmd">ssh</span> user@192.168.1.10
+
+<span class="comment"># نقل ملف للسيرفر</span>
+<span class="cmd">scp</span> file.txt user@192.168.1.10:/home/user/`
+  },
+  {
+    port: 80, service: "HTTP", proto: "TCP", cat: "web",
+    short: "تصفح الويب العادي",
+    desc: "HTTP (HyperText Transfer Protocol) هو البروتوكول الأساسي للويب. لما بتكتب اسم موقع في المتصفح، المتصفح بيبعت request على بورت 80. المشكلة الوحيدة إنه مش مشفر — يعني أي حد على نفس الشبكة ممكن يشوف اللي بتبعته وبتستقبله.",
+    use: "مواقع الويب العادية، APIs غير مشفرة، HTTP redirects",
+    risk: "البيانات بتتبعت plain text — لازم تستخدم HTTPS (443) في أي موقع فيه بيانات حساسة.",
+    example: `<span class="comment"># طلب صفحة بسيط</span>
+<span class="cmd">curl</span> http://example.com
+
+<span class="comment"># المتصفح بيعمل نفس الحاجة تلقائياً</span>
+GET / HTTP/1.1
+Host: <span class="str">example.com</span>`
+  },
+  {
+    port: 443, service: "HTTPS", proto: "TCP", cat: "web",
+    short: "تصفح الويب المشفر",
+    desc: "HTTPS هو HTTP مع طبقة تشفير TLS فوقيه. كل البيانات اللي بتتبعت أو بتستقبل بتبقى مشفرة، يعني حتى لو حد عمل اعتراض للشبكة، مش هيعرف يقرأ حاجة. الأقفال الخضرا في المتصفح ده معناها HTTPS شغال.",
+    use: "كل المواقع اللي فيها بيانات مستخدمين، بنوك، متاجر، أي حاجة محتاج تبعت فيها بيانات",
+    risk: "لو شهادة TLS منتهية أو من مصدر غير موثوق، فيه خطر. دايماً تحقق من صلاحية الشهادة.",
+    example: `<span class="comment"># طلب HTTPS بـ curl</span>
+<span class="cmd">curl</span> -I https://example.com
+
+<span class="comment"># شوف معلومات الشهادة</span>
+<span class="cmd">openssl</span> s_client -connect example.com:<span class="str">443</span>`
+  },
+  {
+    port: 53, service: "DNS", proto: "TCP/UDP", cat: "dns",
+    short: "ترجمة أسماء المواقع",
+    desc: "DNS (Domain Name System) هو 'دليل التليفون' للإنترنت. لما بتكتب google.com، جهازك بيبعت سؤال على بورت 53 لسيرفر DNS عشان يجيب الـ IP Address الخاص بالموقع. بدون DNS، كنت هتكتب أرقام زي 142.250.185.46 عشان تفتح جوجل.",
+    use: "ترجمة Domain Names → IP Addresses، lookup عكسي، MX records للإيميل",
+    risk: "DNS Spoofing خطر لو مش بتستخدم DNSSEC. استخدم DNS موثوق زي 1.1.1.1 أو 8.8.8.8.",
+    example: `<span class="comment"># استعلام DNS عادي</span>
+<span class="cmd">nslookup</span> google.com
+
+<span class="comment"># استعلام تفصيلي</span>
+<span class="cmd">dig</span> google.com A`
+  },
+  {
+    port: 25, service: "SMTP", proto: "TCP", cat: "email",
+    short: "إرسال الإيميلات",
+    desc: "SMTP (Simple Mail Transfer Protocol) هو البروتوكول المسؤول عن إرسال الإيميلات. لما بتضغط Send في Gmail أو Outlook، الإيميل بيتبعت عن طريق SMTP. بورت 25 ده خاص بالتواصل بين السيرفرات (server-to-server)، بينما المستخدم العادي بيستخدم 587.",
+    use: "إرسال إيميلات بين سيرفرات، mail relay، تطبيقات بتبعت notifications",
+    risk: "بورت 25 كثير ISPs بتحجبوه لمنع الـ spam. استخدم 587 مع authentication للإرسال من تطبيقات.",
+    example: `<span class="comment"># اختبار اتصال SMTP</span>
+<span class="cmd">telnet</span> mail.example.com <span class="str">25</span>
+
+<span class="comment"># أو بـ Python</span>
+import smtplib
+smtp = smtplib.SMTP(<span class="str">'smtp.gmail.com'</span>, 587)`
+  },
+  {
+    port: 21, service: "FTP", proto: "TCP", cat: "file",
+    short: "نقل الملفات",
+    desc: "FTP (File Transfer Protocol) بروتوكول قديم لنقل الملفات بين جهازك والسيرفر. بيستخدم بورتين: 21 للأوامر (command channel) و 20 للبيانات (data channel). المشكلة الكبيرة إنه مش مشفر خالص — كلمة السر والملفات كلها بتتبعت plain text.",
+    use: "رفع ملفات على hosting قديم، نقل ملفات داخل شبكات خاصة",
+    risk: "⚠️ خطر جداً على الإنترنت العام! استخدم SFTP (على SSH بورت 22) أو FTPS بدلاً منه.",
+    example: `<span class="comment"># اتصال FTP بسيط</span>
+<span class="cmd">ftp</span> ftp.example.com
+
+<span class="comment"># أو بـ lftp (أفضل)</span>
+<span class="cmd">lftp</span> -u username ftp.example.com`
+  },
+  {
+    port: 3306, service: "MySQL", proto: "TCP", cat: "db",
+    short: "قاعدة بيانات MySQL",
+    desc: "ده البورت اللي MySQL و MariaDB بيستمعوا عليه للاتصالات الواردة. لما تطبيقك بيحتاج يقرأ أو يكتب في قاعدة البيانات، بيتصل على بورت 3306. أغلب مشاريع الويب (PHP + MySQL، Laravel، WordPress) بتستخدمه.",
+    use: "اتصال تطبيقات الويب بقاعدة البيانات، مزامنة البيانات، database administration",
+    risk: "لا تفتح ده للإنترنت أبداً! خليه يقبل اتصالات من localhost أو IP معين بس.",
+    example: `<span class="comment"># اتصال بـ MySQL</span>
+<span class="cmd">mysql</span> -h 127.0.0.1 -P 3306 -u root -p
+
+<span class="comment"># في كود Python</span>
+conn = mysql.connect(host=<span class="str">'localhost'</span>, port=<span class="str">3306</span>)`
+  },
+  {
+    port: 3389, service: "RDP", proto: "TCP/UDP", cat: "remote",
+    short: "سطح مكتب ويندوز عن بُعد",
+    desc: "RDP (Remote Desktop Protocol) هو بروتوكول مايكروسوفت للتحكم في ويندوز عن بُعد بـ GUI كامل. زي إنك قاعد أمام الكومبيوتر بالظبط بس عن بُعد. كتير جداً في الشركات للوصول لأجهزة العمل من البيت.",
+    use: "remote work، IT support، الوصول لسيرفرات ويندوز",
+    risk: "ده بورت بيتهاجم كتير على الإنترنت. لو محتاج تفتحه، استخدم VPN أو غير البورت الافتراضي.",
+    example: `<span class="comment"># من ويندوز — شغل Run ثم</span>
+mstsc /v:<span class="str">192.168.1.10</span>
+
+<span class="comment"># من Linux بـ rdesktop</span>
+<span class="cmd">rdesktop</span> 192.168.1.10:3389`
+  },
+  {
+    port: 443, service: "HTTPS", proto: "TCP", cat: "web",
+    short: "تصفح الويب المشفر", desc: "", use: "", risk: "", example: ""
+  },
+  {
+    port: 8080, service: "HTTP-Alt", proto: "TCP", cat: "web",
+    short: "ويب سيرفر تاني (dev)",
+    desc: "بورت 8080 هو بديل شائع لبورت 80 لما بتشتغل على development أو بتشغل تطبيق ويب على نفس الجهاز. كتير من frameworks زي Spring Boot و Node.js و Tomcat بتستخدمه افتراضياً، لأن فتح بورت 80 الأصلي محتاج صلاحيات root.",
+    use: "تطوير المواقع محلياً، proxies، application servers زي Tomcat",
+    risk: "لو شغال على production، تأكد إن في firewall يحمي البورت ده.",
+    example: `<span class="comment"># Node.js على بورت 8080</span>
+app.listen(<span class="str">8080</span>, () => console.log(<span class="str">'running'</span>))
+
+<span class="comment"># اختبار</span>
+<span class="cmd">curl</span> http://localhost:8080`
+  },
+  {
+    port: 123, service: "NTP", proto: "UDP", cat: "net",
+    short: "مزامنة الوقت",
+    desc: "NTP (Network Time Protocol) مسؤول عن مزامنة ساعة جهازك مع سيرفرات الوقت على الإنترنت. ممكن يبدو بسيط بس في الحقيقة مهم جداً — لو الوقت غلط على سيرفر، هتحصل مشاكل في الـ SSL certificates، الـ logs، والـ authentication.",
+    use: "مزامنة الوقت على سيرفرات وأجهزة الشبكة، distributed systems",
+    risk: "NTP Amplification attacks ممكن تستخدمه في DDoS. الـ firewalls بتتعامل معاه عادةً.",
+    example: `<span class="comment"># فحص الوقت الحالي</span>
+<span class="cmd">ntpdate</span> -q pool.ntp.org
+
+<span class="comment"># Linux: شوف حالة المزامنة</span>
+<span class="cmd">timedatectl</span> status`
+  },
+  {
+    port: 143, service: "IMAP", proto: "TCP", cat: "email",
+    short: "قراءة الإيميل من السيرفر",
+    desc: "IMAP (Internet Message Access Protocol) بيخليك تقرأ إيميلاتك من السيرفر من غير ما تنزلها على جهازك. الفرق بينه وبين POP3 إنك تقدر تفتح نفس الإيميل من تليفونك وكومبيوترك وكل حاجة متزامنة، لأن الرسائل فاضلة على السيرفر.",
+    use: "mail clients زي Thunderbird و Outlook، apps بتتصل بـ Gmail أو Outlook",
+    risk: "استخدم IMAPS (بورت 993) مع TLS بدل 143 العادي المش مشفر.",
+    example: `<span class="comment"># اتصال IMAP يدوي</span>
+<span class="cmd">openssl</span> s_client -connect mail.example.com:<span class="str">993</span>
+
+<span class="comment"># Python - قراءة إيميلات</span>
+import imaplib
+mail = imaplib.IMAP4_SSL(<span class="str">'imap.gmail.com'</span>)`
+  },
+];
+
+// remove duplicate 443
+const uniquePorts = ports.filter((p, i, arr) => arr.findIndex(x => x.port === p.port) === i);
+
+const tagClass = { web:'t-web', email:'t-email', file:'t-file', remote:'t-remote', dns:'t-dns', net:'t-net', db:'t-db', sec:'t-sec' };
+const tagLabel = { web:'ويب', email:'إيميل', file:'ملفات', remote:'ريموت', dns:'DNS', net:'شبكة', db:'قاعدة بيانات', sec:'أمان' };
+
+function buildGrid(data) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  data.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="card-port">${p.port}</div>
+      <div class="card-service">${p.service}</div>
+      <span class="tag ${tagClass[p.cat]||''}">${tagLabel[p.cat]||p.cat}</span>
+      <div class="proto">${p.proto}</div>
+    `;
+    div.onclick = () => showDetail(p);
+    grid.appendChild(div);
+  });
+  document.getElementById('no-result').style.display = data.length ? 'none' : 'block';
+}
+
+function filterCards() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = uniquePorts.filter(p =>
+    String(p.port).includes(q) ||
+    p.service.toLowerCase().includes(q) ||
+    (tagLabel[p.cat]||'').includes(q) ||
+    p.short.includes(q)
+  );
+  buildGrid(filtered);
+}
+
+function showDetail(p) {
+  document.getElementById('list-view').style.display = 'none';
+  document.getElementById('detail').style.display = 'block';
+
+  const riskColor = p.risk && p.risk.includes('⚠️') ? '#fee2e2' : '#f0fdf4';
+  const riskIcon = p.risk && p.risk.includes('⚠️') ? '⚠️' : '💡';
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-head">
+      <div class="detail-port-box">
+        <div class="num">${p.port}</div>
+        <div class="lbl">PORT</div>
+      </div>
+      <div class="detail-title">
+        <h2>${p.service}</h2>
+        <p>${p.short}</p>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <span class="tag ${tagClass[p.cat]||''}">${tagLabel[p.cat]||p.cat}</span>
+          <span style="font-size:0.8rem;color:var(--muted)">${p.proto}</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-title">شرح</p>
+    <div class="detail-desc">${p.desc || 'قريباً...'}</div>
+
+    <div class="detail-meta">
+      <div class="meta-box">
+        <div class="meta-label">البروتوكول</div>
+        <div class="meta-val">${p.proto}</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">الفئة</div>
+        <div class="meta-val">${tagLabel[p.cat]||p.cat}</div>
+      </div>
+      <div class="meta-box" style="grid-column: 1 / -1">
+        <div class="meta-label">الاستخدام</div>
+        <div class="meta-val" style="font-weight:400;font-size:0.9rem;line-height:1.6">${p.use || '—'}</div>
+      </div>
+    </div>
+
+    ${p.risk ? `
+    <p class="section-title">ملاحظة أمنية</p>
+    <div style="background:${riskColor};border-radius:10px;padding:0.85rem 1rem;margin-bottom:1.5rem;font-size:0.9rem;line-height:1.7;color:var(--text)">
+      ${riskIcon} ${p.risk}
+    </div>` : ''}
+
+    ${p.example ? `
+    <p class="section-title">مثال عملي</p>
+    <div class="example-box"><pre>${p.example}</pre></div>` : ''}
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showList() {
+  document.getElementById('detail').style.display = 'none';
+  document.getElementById('list-view').style.display = 'block';
+}
+
+buildGrid(uniquePorts);
+</script>
+</body>
+</html>
